@@ -1,5 +1,5 @@
 package pages;
-
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.FindBy;
@@ -15,49 +15,21 @@ public class MainPage {
     @FindBy(how = How.XPATH, using = ".//p[text()='Личный Кабинет']")
     private SelenideElement profileButton;
 
-    //Кнопка "Булки"
+    //Таб "Булки"
     @FindBy(how = How.XPATH, using = ".//span[text()='Булки']")
-    private SelenideElement bunsButton;
+    private SelenideElement bunsTab;
 
-    //Кнопка "Соусы"
+    //Таб "Соусы"
     @FindBy(how = How.XPATH, using = ".//span[text()='Соусы']")
-    private SelenideElement saucesButton;
+    private SelenideElement saucesTab;
 
-    //Кнопка "Начинки"
+    //Таб "Начинки"
     @FindBy(how = How.XPATH, using = ".//span[text()='Начинки']")
-    private SelenideElement fillingsButton;
+    private SelenideElement fillingsTab;
 
-    //Последний элемент в конструкторе для проверки переходов
-    @FindBy(how = How.XPATH, using = "//p[text()='Сыр с астероидной плесенью']")
-    private SelenideElement lastIngredient;
-
-    //Корзина для создания заказа
-    @FindBy(how = How.CLASS_NAME, using = "BurgerConstructor_basket__list__l9dp_")
-    private SelenideElement orderBasket;
-
-    //Элемент из раздела булок для drag and drop
-    @FindBy(how = How.XPATH, using = ".//p[text()='Флюоресцентная булка R2-D3']")
-    private SelenideElement bunForDrop;
-
-    //Отображение булки после перемещения в корзину
-    @FindBy(how = How.XPATH, using = ".//span[text()='Флюоресцентная булка R2-D3 (верх)']")
-    private SelenideElement bunInBasket;
-
-    //Элемент из раздела соусов для drag and drop
-    @FindBy(how = How.XPATH, using = ".//p[text()='Соус Spicy-X']")
-    private SelenideElement sauceForDrop;
-
-    //Отображение соуса после перемещения в корзину
-    @FindBy(how = How.XPATH, using = ".//span[text()='Соус Spicy-X']")
-    private SelenideElement sauceInBasket;
-
-    //Элемент из раздела начинок для drag and drop
-    @FindBy(how = How.XPATH, using = ".//p[text()='Хрустящие минеральные кольца']")
-    private SelenideElement fillingForDrop;
-
-    //Отображение начинки после перемещения в корзину
-    @FindBy(how = How.XPATH, using = ".//span[text()='Хрустящие минеральные кольца']")
-    private SelenideElement fillingInBasket;
+    //Коллекция элементов для табов
+    @FindBy(how = How.XPATH, using = "//div[contains(@class, 'tab_tab')]")
+    private ElementsCollection constructorTabs;
 
     //Методы
     @Step("Кликаем на 'Войти в аккаунт' ")
@@ -68,24 +40,25 @@ public class MainPage {
     public void clickProfileButton() {
         profileButton.click();
     }
-    @Step("Нажать на кнопку 'Начинки', переместить элемент начинок в корзину и проверить его отображение в корзине")
-    public boolean clickFillingButtonAndCheckTheSign() {
-        fillingsButton.click();
-        fillingForDrop.dragAndDropTo(orderBasket);
-        return fillingInBasket.isDisplayed();
+    //Возвращаем номер таба
+    public SelenideElement getTab(int number) {
+        return constructorTabs.get(number);
     }
-    @Step("Листаем список вниз и жмем на кнопку 'Соусы', перемещаем элемент соусов в корзину, проверяем отображение элемента в корзине")
-    public boolean clickSaucesButtonAndCheckTheSign() throws InterruptedException {
-        lastIngredient.scrollIntoView(true);
-        saucesButton.click();
-        sauceForDrop.dragAndDropTo(orderBasket);
-        return sauceInBasket.isDisplayed();
+    @Step("Проверка наличия 'tab_tab_type_current' класса у активной вкладки")
+    public boolean checkTabContainsClass(int numberOfTab) {
+        return getTab(numberOfTab).getAttribute("class").contains("tab_tab_type_current");
     }
-    @Step("Листаем список вниз и жмем на кнопку 'Булки', перемещаем булок в корзину, проверяем отображение элемента в корзине")
-    public boolean clickBunsButtonCheckTheSign() {
-        lastIngredient.scrollIntoView(true);
-        bunsButton.click();
-        bunForDrop.dragAndDropTo(orderBasket);
-        return bunInBasket.isDisplayed();
+    @Step("Клик по вкладке Булки")
+    public void bunsButtonClick() {
+        bunsTab.click();
     }
+    @Step("Клик по вкладке Соусы")
+    public void saucesTabClick() {
+        saucesTab.click();
+    }
+    @Step("Клик по вкладке Начинки")
+    public void fillingsTabClick() {
+        fillingsTab.click();
+    }
+
 }
