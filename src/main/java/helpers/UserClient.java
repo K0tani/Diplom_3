@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 
-public class Utils extends RestApi {
+public class UserClient extends RestApi {
 
     private static final String USER_PATH = "/api/auth/";
 

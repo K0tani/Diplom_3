@@ -1,5 +1,5 @@
 import helpers.UserDataGenerator;
-import helpers.Utils;
+import helpers.UserClient;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
@@ -18,13 +18,13 @@ import static helpers.Url.*;
 public class LoginTest extends BaseSettings{
 
     private UserDataGenerator userDataGenerator;
-    private Utils user;
+    private UserClient user;
     private String auth;
     private MainPage mainPage;
 
     @Before
     public void setUp() {
-        user = new Utils();
+        user = new UserClient();
         userDataGenerator = UserDataGenerator.getRandomDataUser();
         ValidatableResponse response = user.userCreate(userDataGenerator);
 

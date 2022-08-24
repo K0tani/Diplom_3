@@ -1,5 +1,5 @@
 import helpers.UserDataGenerator;
-import helpers.Utils;
+import helpers.UserClient;
 import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 public class RegistrationTest extends BaseSettings{
 
     private UserDataGenerator userDataGenerator;
-    private Utils user;
+    private UserClient user;
     private MainPage mainPage;
     private String auth;
 
@@ -27,7 +27,7 @@ public class RegistrationTest extends BaseSettings{
 
     @Before
     public void setUp() {
-        user = new Utils();
+        user = new UserClient();
         userDataGenerator = UserDataGenerator.getRandomDataUser();
 
         mainPage = open(MAIN_PAGE, MainPage.class);
